@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="c.r.torchwidget">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/moon_off"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/moon_off"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <receiver android:name=".sigDealer">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/torch_info" />
+        </receiver>
+
+        <service
+            android:name=".Service"
+            android:exported="false">
+        </service>
+    </application>
+
+</manifest>

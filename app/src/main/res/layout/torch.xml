@@ -1,0 +1,12 @@
+
+
+
+<ImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+android:id="@+id/Torch"
+android:layout_width="@android:dimen/app_icon_size"
+android:layout_height="@android:dimen/app_icon_size"
+android:scaleType="centerInside"
+android:layout_margin="5dp"
+    />
