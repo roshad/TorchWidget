@@ -10,7 +10,10 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
+import android.support.v4.content.LocalBroadcastManager;
 import android.widget.RemoteViews;
+
+import static android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE;
 
 
 public class Service extends IntentService {
@@ -18,27 +21,28 @@ public class Service extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        RemoteViews views;
 
         SharedPreferences sp = getSharedPreferences("Torch", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         Boolean b = sp.getBoolean("switch", false);
-        views = new RemoteViews(getPackageName(), R.layout.torch);
 
         if (b) {
             mSwitch(Service.this, false);
-            views.setImageViewResource(R.id.Torch,R.drawable.moon_off );
             editor.putBoolean("switch", false);
         } else {
             mSwitch(Service.this, true);
-            views.setImageViewResource(R.id.Torch,R.drawable.moon_on );
             editor.putBoolean("switch", true);
         }
         editor.apply();
 
-        AppWidgetManager appWidgetManager;
-        appWidgetManager = AppWidgetManager.getInstance(Service.this);
-        appWidgetManager.updateAppWidget(new ComponentName(this, sigDealer.class), views);
+        //intent back to provider
+        Intent mIntent = new Intent(this, sigDealer.class);
+        mIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds
+                (new ComponentName(getApplication(), sigDealer.class));
+        mIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(mIntent);
+
     }
     void mSwitch(Context context,boolean oo){
         CameraManager cm = (CameraManager)context.getSystemService(Context.CAMERA_SERVICE);

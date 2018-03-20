@@ -12,6 +12,7 @@
         <receiver android:name=".sigDealer">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+
             </intent-filter>
 
             <meta-data
